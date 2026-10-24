@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-prism-mint: #DDF3D2;
+  --color-prism-aqua: #B6E6D9;
+  --color-prism-teal: #329F9C;
+  --color-prism-deepteal: #126A78;
+  --color-prism-midnight: #183B70;
+  --color-prism-lavender: #C8B0F0;
+}
+
+/* Custom scrollbars and utility styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(18, 106, 120, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(18, 106, 120, 0.4);
+}
+
+/* Tabular figures for financial/legal dates and numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Prism Glass Utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.glass-panel-subtle {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(182, 230, 217, 0.35);
+}
+
+.glass-panel-highlight {
+  background: linear-gradient(135deg, rgba(221, 243, 210, 0.25) 0%, rgba(182, 230, 217, 0.2) 50%, rgba(200, 176, 240, 0.15) 100%);
+  border: 1px solid rgba(50, 159, 156, 0.25);
+}
