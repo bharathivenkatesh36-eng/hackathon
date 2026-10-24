@@ -108,6 +108,9 @@ export interface Notice {
   rawText?: string;
   fileName?: string;
   fileSize?: string;
+  fileUrl?: string;
+  pdfUrl?: string;
+  highlightedSnippetId?: string;
   draftResponses?: ResponseDraftRecord[];
 }
 

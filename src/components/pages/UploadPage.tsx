@@ -221,7 +221,8 @@ export const UploadPage: React.FC<UploadPageProps> = ({
                   }
                 ],
                 fileName: selectedFile.name,
-                fileSize: `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`
+                fileSize: `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`,
+                fileUrl: URL.createObjectURL(selectedFile)
               };
 
               NoticeService.addNotice(targetNotice);

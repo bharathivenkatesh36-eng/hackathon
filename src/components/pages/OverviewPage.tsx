@@ -8,7 +8,9 @@ import {
   Upload,
   ChevronRight,
   Building2,
-  Info
+  Info,
+  Mail,
+  Send
 } from 'lucide-react';
 import { Notice } from '../../types/notice';
 import { MetricCard } from '../common/MetricCard';
@@ -22,6 +24,7 @@ interface OverviewPageProps {
   onNavigateUpload: () => void;
   onNavigateNotices: (filterCategory?: string) => void;
   onNavigateActions: () => void;
+  onOpenNotificationCenter?: () => void;
 }
 
 export const OverviewPage: React.FC<OverviewPageProps> = ({
@@ -29,7 +32,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
   onSelectNotice,
   onNavigateUpload,
   onNavigateNotices,
-  onNavigateActions
+  onNavigateActions,
+  onOpenNotificationCenter
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [tableSearch, setTableSearch] = useState<string>('');
@@ -162,6 +166,39 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             <span>View All Action Plans</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
+        </div>
+
+        {/* Automated Deadline Notification Daemon Banner */}
+        <div className="mt-4 p-3.5 rounded-xl bg-linear-to-r from-[#EAF5F0] to-[#E3F2EC] dark:from-[#1B3040] dark:to-[#142332] border border-[#DCE9E5] dark:border-[#294251] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-[#238C88]/15 dark:bg-[#65D5C5]/15 text-[#238C88] dark:text-[#65D5C5] shrink-0">
+              <Mail className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-[#172C35] dark:text-[#ECF5F5]">
+                  Automated Deadline Email Service Active
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300 dark:border-emerald-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Mock Service Worker Online
+                </span>
+              </div>
+              <p className="text-[11px] text-[#5F7279] dark:text-[#A6BBC3]">
+                Monitors statutory thresholds (14d, 7d, 3d, 1d) & simulates email dispatch via browser service worker interceptor.
+              </p>
+            </div>
+          </div>
+
+          {onOpenNotificationCenter && (
+            <button
+              onClick={onOpenNotificationCenter}
+              className="px-3 py-1.5 text-xs font-semibold text-white dark:text-[#0D1722] bg-[#238C88] dark:bg-[#65D5C5] hover:opacity-90 rounded-xl transition-all cursor-pointer shadow-2xs shrink-0 flex items-center gap-1.5"
+            >
+              <span>Email Dispatcher & Demo</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">

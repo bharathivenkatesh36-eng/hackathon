@@ -25,6 +25,7 @@ interface AppSidebarProps {
   needsAttentionCount: number;
   pendingActionsCount: number;
   businessName: string;
+  onOpenNotificationCenter?: () => void;
 }
 
 export const AppSidebar: React.FC<AppSidebarProps> = ({
@@ -36,7 +37,8 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   onCloseMobile,
   needsAttentionCount,
   pendingActionsCount,
-  businessName
+  businessName,
+  onOpenNotificationCenter
 }) => {
   const navItems = [
     {
@@ -182,18 +184,29 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       {/* Business Entity Badge at bottom — Fixed at bottom of sidebar */}
       {!collapsed && (
         <div className="p-3 m-3 rounded-xl bg-[#EAF5F0]/60 dark:bg-[#1B3040]/60 border border-[#DCE9E5] dark:border-[#294251] shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-            <span className="text-[10px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] uppercase tracking-wider truncate">
-              Entity Monitored
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="text-[10px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] uppercase tracking-wider truncate">
+                Entity Monitored
+              </span>
+            </div>
+            {onOpenNotificationCenter && (
+              <button
+                onClick={onOpenNotificationCenter}
+                className="text-[10px] font-bold text-[#238C88] dark:text-[#65D5C5] hover:underline cursor-pointer"
+                title="Open automated deadline notification console"
+              >
+                Mock SW Logs →
+              </button>
+            )}
           </div>
           <p className="mt-1 text-xs font-bold text-[#172C35] dark:text-[#ECF5F5] truncate">
             {businessName}
           </p>
           <div className="mt-1.5 flex items-center justify-between text-[10px] text-[#5F7279] dark:text-[#A6BBC3]">
-            <span>Vault Encrypted</span>
-            <span className="text-[#238C88] dark:text-[#65D5C5] font-semibold">Verified</span>
+            <span>Deadline Scheduler</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Active</span>
           </div>
         </div>
       )}

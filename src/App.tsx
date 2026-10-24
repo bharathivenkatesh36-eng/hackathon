@@ -11,9 +11,11 @@ import { MyNoticesPage } from './components/pages/MyNoticesPage';
 import { ActionPlansPage } from './components/pages/ActionPlansPage';
 import { ResponseAssistantPage } from './components/pages/ResponseAssistantPage';
 import { SettingsPage } from './components/pages/SettingsPage';
+import { NotificationCenterModal } from './components/notifications/NotificationCenterModal';
 import { ToastContainer, ToastMessage } from './components/common/Toast';
 import { Notice, ActionPlanTask, AppSettings } from './types/notice';
 import { NoticeService } from './services/noticeService';
+import { notificationSchedulerService } from './services/notificationSchedulerService';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 
 function AppContent() {
@@ -21,6 +23,7 @@ function AppContent() {
   const [selectedNoticeId, setSelectedNoticeId] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
+  const [isNotificationCenterOpen, setIsNotificationCenterOpen] = useState<boolean>(false);
 
   const [notices, setNotices] = useState<Notice[]>([]);
   const [tasks, setTasks] = useState<ActionPlanTask[]>([]);
@@ -43,6 +46,10 @@ function AppContent() {
 
   useEffect(() => {
     refreshData();
+    notificationSchedulerService.startScheduler();
+    return () => {
+      notificationSchedulerService.stopScheduler();
+    };
   }, []);
 
   // Lock body scroll and listen for Escape key when mobile drawer is open
@@ -224,6 +231,7 @@ function AppContent() {
         needsAttentionCount={needsAttentionCount}
         pendingActionsCount={pendingActionsCount}
         businessName={settings.businessName}
+        onOpenNotificationCenter={() => setIsNotificationCenterOpen(true)}
       />
 
       {/* Main Workspace Area (Viewport height bounded, independent scrolling) */}
@@ -242,6 +250,7 @@ function AppContent() {
           onLanguageChange={(lang) => {
             showToast(`Language set to ${lang.name} (${lang.nativeName})`, 'info');
           }}
+          onOpenNotificationCenter={() => setIsNotificationCenterOpen(true)}
         />
 
         {/* Independent Scrollable Workspace Content */}
@@ -253,6 +262,7 @@ function AppContent() {
               onNavigateUpload={handleNavigateUpload}
               onNavigateNotices={handleNavigateNotices}
               onNavigateActions={handleNavigateActions}
+              onOpenNotificationCenter={() => setIsNotificationCenterOpen(true)}
             />
           )}
 
@@ -330,10 +340,20 @@ function AppContent() {
                 setActiveTab('overview');
               }}
               onShowToast={showToast}
+              onOpenNotificationCenter={() => setIsNotificationCenterOpen(true)}
             />
           )}
         </main>
       </div>
+
+      {/* Automated Deadline Notification & Mock Service Worker Modal */}
+      <NotificationCenterModal
+        isOpen={isNotificationCenterOpen}
+        onClose={() => setIsNotificationCenterOpen(false)}
+        notices={notices}
+        onSelectNotice={handleSelectNotice}
+        onShowToast={showToast}
+      />
 
       {/* Floating Toast Notification Container */}
       <ToastContainer toasts={toasts} onDismiss={handleDismissToast} />

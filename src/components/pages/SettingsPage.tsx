@@ -23,13 +23,15 @@ interface SettingsPageProps {
   onSettingsSaved: (newSettings: AppSettings) => void;
   onResetVault: () => void;
   onShowToast: (message: string, type: 'success' | 'info' | 'error') => void;
+  onOpenNotificationCenter?: () => void;
 }
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({
   settings,
   onSettingsSaved,
   onResetVault,
-  onShowToast
+  onShowToast,
+  onOpenNotificationCenter
 }) => {
   const [formData, setFormData] = useState<AppSettings>(settings);
   const [showPurgeDialog, setShowPurgeDialog] = useState<boolean>(false);
@@ -306,6 +308,26 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                 className="w-4 h-4 text-[#238C88] rounded border-[#DCE9E5] dark:border-[#294251] focus:ring-[#238C88] cursor-pointer"
               />
             </div>
+
+            {onOpenNotificationCenter && (
+              <div className="pt-3 border-t border-[#DCE9E5]/60 dark:border-[#294251] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                  <h4 className="text-xs font-bold text-[#172C35] dark:text-[#ECF5F5]">
+                    Notification Scheduler & Mock Service Worker Daemon
+                  </h4>
+                  <p className="text-[11px] text-[#5F7279] dark:text-[#A6BBC3]">
+                    Configure scan frequency, trigger test dispatches, and inspect delivered email logs.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onOpenNotificationCenter}
+                  className="px-3 py-1.5 text-xs font-semibold text-[#238C88] dark:text-[#65D5C5] bg-[#EAF5F0] dark:bg-[#1B3040] hover:bg-[#DCE9E5] dark:hover:bg-[#203A49] border border-[#DCE9E5] dark:border-[#294251] rounded-xl cursor-pointer transition-colors shrink-0"
+                >
+                  Open Scheduler Console →
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
