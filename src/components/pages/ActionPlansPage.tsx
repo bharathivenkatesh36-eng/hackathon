@@ -4,17 +4,10 @@ import {
   Square,
   Plus,
   Calendar,
-  Filter,
   CheckCircle2,
-  AlertTriangle,
-  Clock,
-  ArrowRight,
-  ExternalLink,
-  Layers,
-  Sparkles
+  ExternalLink
 } from 'lucide-react';
 import { ActionPlanTask, Notice } from '../../types/notice';
-import { NoticeService } from '../../services/noticeService';
 
 interface ActionPlansPageProps {
   tasks: ActionPlanTask[];
@@ -85,32 +78,32 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#183B70] tracking-tight">
+          <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
             Compliance Action Plans
           </h1>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <p className="mt-0.5 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
             Organized checklists separating mandatory statutory duties from strategic defense preparations.
           </p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-linear-to-r from-[#126A78] to-[#183B70] hover:from-[#0e525d] hover:to-[#122e58] shadow-xs hover:shadow-sm transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white dark:text-[#0D1722] bg-linear-to-r from-[#238C88] to-[#172C35] dark:from-[#65D5C5] dark:to-[#238C88] hover:opacity-95 shadow-xs transition-all cursor-pointer"
         >
-          <Plus className="w-4 h-4 text-[#B6E6D9]" />
+          <Plus className="w-4 h-4 text-[#B6E6D9] dark:text-[#0D1722]" />
           <span>Add Custom Task</span>
         </button>
       </div>
 
       {/* Progress & Overview Card */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-white/90 dark:bg-[#142332]/90 backdrop-blur-md rounded-2xl border border-[#DCE9E5] dark:border-[#294251] p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="w-14 h-14 rounded-2xl bg-[#EEF8F6] border border-[#B6E6D9] flex items-center justify-center text-[#126A78] shrink-0 font-bold text-lg tabular-nums">
+          <div className="w-14 h-14 rounded-2xl bg-[#EAF5F0] dark:bg-[#1B3040] border border-[#DCE9E5] dark:border-[#294251] flex items-center justify-center text-[#238C88] dark:text-[#65D5C5] shrink-0 font-bold text-lg tabular-nums">
             {progressPercent}%
           </div>
           <div>
-            <h3 className="text-sm font-bold text-[#183B70]">Overall Defense Execution</h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <h3 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5]">Overall Defense Execution</h3>
+            <p className="text-xs text-[#5F7279] dark:text-[#A6BBC3] mt-0.5">
               {completedCount} of {tasks.length} tasks completed across active notices
             </p>
           </div>
@@ -122,7 +115,7 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
           <select
             value={selectedNoticeId}
             onChange={(e) => setSelectedNoticeId(e.target.value)}
-            className="text-xs font-medium text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30 max-w-xs truncate"
+            className="text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] bg-[#EAF5F0]/60 dark:bg-[#0D1722]/60 border border-[#DCE9E5] dark:border-[#294251] rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30 max-w-xs truncate cursor-pointer"
           >
             <option value="all">All Associated Notices ({notices.length})</option>
             {notices.map((n) => (
@@ -133,27 +126,33 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
           </select>
 
           {/* Type Filter Tabs */}
-          <div className="p-1 rounded-lg bg-slate-100 border border-slate-200 flex items-center text-xs">
+          <div className="p-1 rounded-xl bg-[#EAF5F0] dark:bg-[#1B3040] border border-[#DCE9E5] dark:border-[#294251] flex items-center text-xs">
             <button
               onClick={() => setFilterType('all')}
-              className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
-                filterType === 'all' ? 'bg-white text-[#183B70] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-2.5 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
+                filterType === 'all'
+                  ? 'bg-white dark:bg-[#142332] text-[#172C35] dark:text-[#ECF5F5] shadow-xs'
+                  : 'text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-[#ECF5F5]'
               }`}
             >
               All
             </button>
             <button
               onClick={() => setFilterType('mandatory')}
-              className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
-                filterType === 'mandatory' ? 'bg-white text-rose-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-2.5 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
+                filterType === 'mandatory'
+                  ? 'bg-white dark:bg-[#142332] text-rose-700 dark:text-rose-300 shadow-xs'
+                  : 'text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-[#ECF5F5]'
               }`}
             >
               Mandatory
             </button>
             <button
               onClick={() => setFilterType('suggested')}
-              className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
-                filterType === 'suggested' ? 'bg-white text-[#126A78] shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              className={`px-2.5 py-1 rounded-lg font-semibold transition-colors cursor-pointer ${
+                filterType === 'suggested'
+                  ? 'bg-white dark:bg-[#142332] text-[#238C88] dark:text-[#65D5C5] shadow-xs'
+                  : 'text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-[#ECF5F5]'
               }`}
             >
               Suggested
@@ -166,10 +165,10 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
       {(filterType === 'all' || filterType === 'mandatory') && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded border border-rose-200">
+            <span className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-lg border border-rose-200 dark:border-rose-900/60">
               Mandatory Statutory Duties
             </span>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-[#5F7279] dark:text-[#A6BBC3]">
               ({mandatoryTasks.filter((t) => !t.completed).length} pending deadlines)
             </span>
           </div>
@@ -180,10 +179,10 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                 <div
                   key={task.id}
                   onClick={() => onToggleTask(task)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3.5 bg-white ${
+                  className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3.5 ${
                     task.completed
-                      ? 'border-slate-200 bg-slate-50/70 text-slate-400'
-                      : 'border-slate-200 hover:border-[#329F9C] shadow-2xs'
+                      ? 'border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/40 dark:bg-[#1B3040]/40 text-slate-400 dark:text-slate-500'
+                      : 'border-[#DCE9E5] dark:border-[#294251] hover:border-[#238C88] dark:hover:border-[#65D5C5] bg-white dark:bg-[#142332] shadow-2xs'
                   }`}
                 >
                   <button
@@ -191,7 +190,7 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                     aria-label={task.completed ? 'Mark incomplete' : 'Mark complete'}
                   >
                     {task.completed ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
                       <Square className="w-4 h-4 text-slate-400" />
                     )}
@@ -201,40 +200,40 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <h4
                         className={`text-xs font-bold ${
-                          task.completed ? 'line-through text-slate-400' : 'text-[#183B70]'
+                          task.completed ? 'line-through text-slate-400 dark:text-slate-500' : 'text-[#172C35] dark:text-[#ECF5F5]'
                         }`}
                       >
                         {task.title}
                       </h4>
                       {task.dueDate && (
-                        <span className="text-[11px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded shrink-0 tabular-nums self-start sm:self-auto">
+                        <span className="text-[11px] font-semibold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 px-2 py-0.5 rounded shrink-0 tabular-nums self-start sm:self-auto">
                           Due: {task.dueDate}
                         </span>
                       )}
                     </div>
 
-                    <p className="mt-1 text-xs text-slate-600 leading-relaxed">
+                    <p className="mt-1 text-xs text-[#5F7279] dark:text-[#A6BBC3] leading-relaxed">
                       {task.description}
                     </p>
 
-                    <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                    <div className="mt-2.5 pt-2 border-t border-[#DCE9E5]/60 dark:border-[#294251] flex items-center justify-between text-[11px]">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           onSelectNotice(task.noticeId);
                         }}
-                        className="text-[#126A78] hover:underline font-medium flex items-center gap-1"
+                        className="text-[#238C88] dark:text-[#65D5C5] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                       >
                         <span>Notice: {task.noticeTitle}</span>
                         <ExternalLink className="w-3 h-3" />
                       </button>
-                      <span className="text-slate-400">{task.category}</span>
+                      <span className="text-[#5F7279] dark:text-[#A6BBC3]">{task.category}</span>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="p-8 text-center bg-white/60 rounded-xl border border-slate-200 text-xs text-slate-500">
+              <div className="p-8 text-center bg-white/60 dark:bg-[#142332]/60 rounded-2xl border border-[#DCE9E5] dark:border-[#294251] text-xs text-[#5F7279] dark:text-[#A6BBC3]">
                 No mandatory tasks match the active filters.
               </div>
             )}
@@ -246,10 +245,10 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
       {(filterType === 'all' || filterType === 'suggested') && (
         <div className="space-y-3 pt-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#126A78] bg-[#EEF8F6] px-2.5 py-0.5 rounded border border-[#B6E6D9]/50">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#238C88] dark:text-[#65D5C5] bg-[#EAF5F0] dark:bg-[#1B3040] px-2.5 py-0.5 rounded-lg border border-[#DCE9E5] dark:border-[#294251]">
               Suggested Defense Preparations
             </span>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-[#5F7279] dark:text-[#A6BBC3]">
               ({suggestedTasks.filter((t) => !t.completed).length} recommended steps)
             </span>
           </div>
@@ -260,10 +259,10 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                 <div
                   key={task.id}
                   onClick={() => onToggleTask(task)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3.5 bg-white ${
+                  className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-3.5 ${
                     task.completed
-                      ? 'border-slate-200 bg-slate-50/70 text-slate-400'
-                      : 'border-slate-200 hover:border-[#329F9C] shadow-2xs'
+                      ? 'border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/40 dark:bg-[#1B3040]/40 text-slate-400 dark:text-slate-500'
+                      : 'border-[#DCE9E5] dark:border-[#294251] hover:border-[#238C88] dark:hover:border-[#65D5C5] bg-white dark:bg-[#142332] shadow-2xs'
                   }`}
                 >
                   <button
@@ -271,7 +270,7 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                     aria-label={task.completed ? 'Mark incomplete' : 'Mark complete'}
                   >
                     {task.completed ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
                       <Square className="w-4 h-4 text-slate-400" />
                     )}
@@ -281,38 +280,38 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <h4
                         className={`text-xs font-bold ${
-                          task.completed ? 'line-through text-slate-400' : 'text-[#183B70]'
+                          task.completed ? 'line-through text-slate-400 dark:text-slate-500' : 'text-[#172C35] dark:text-[#ECF5F5]'
                         }`}
                       >
                         {task.title}
                       </h4>
-                      <span className="text-[11px] font-medium text-slate-500 shrink-0">
+                      <span className="text-[11px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] shrink-0">
                         Strategic Prep
                       </span>
                     </div>
 
-                    <p className="mt-1 text-xs text-slate-600 leading-relaxed">
+                    <p className="mt-1 text-xs text-[#5F7279] dark:text-[#A6BBC3] leading-relaxed">
                       {task.description}
                     </p>
 
-                    <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                    <div className="mt-2.5 pt-2 border-t border-[#DCE9E5]/60 dark:border-[#294251] flex items-center justify-between text-[11px]">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           onSelectNotice(task.noticeId);
                         }}
-                        className="text-[#126A78] hover:underline font-medium flex items-center gap-1"
+                        className="text-[#238C88] dark:text-[#65D5C5] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                       >
                         <span>Notice: {task.noticeTitle}</span>
                         <ExternalLink className="w-3 h-3" />
                       </button>
-                      <span className="text-slate-400">{task.category}</span>
+                      <span className="text-[#5F7279] dark:text-[#A6BBC3]">{task.category}</span>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="p-8 text-center bg-white/60 rounded-xl border border-slate-200 text-xs text-slate-500">
+              <div className="p-8 text-center bg-white/60 dark:bg-[#142332]/60 rounded-2xl border border-[#DCE9E5] dark:border-[#294251] text-xs text-[#5F7279] dark:text-[#A6BBC3]">
                 No suggested preparation tasks match the active filters.
               </div>
             )}
@@ -325,14 +324,14 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs"
         >
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-slate-200 p-6 animate-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-base font-bold text-[#183B70]">Add Custom Action Task</h3>
+          <div className="w-full max-w-lg bg-white dark:bg-[#142332] rounded-2xl shadow-xl border border-[#DCE9E5] dark:border-[#294251] p-6 animate-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-[#DCE9E5]/60 dark:border-[#294251] pb-3">
+              <h3 className="text-base font-bold text-[#172C35] dark:text-[#ECF5F5]">Add Custom Action Task</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-white p-1 rounded-lg"
                 aria-label="Close modal"
               >
                 ✕
@@ -341,13 +340,13 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
 
             <form onSubmit={handleCreateTask} className="mt-4 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] mb-1">
                   Associate with Notice:
                 </label>
                 <select
                   value={newTaskNoticeId}
                   onChange={(e) => setNewTaskNoticeId(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30 text-slate-700"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/50 dark:bg-[#0D1722]/60 text-[#172C35] dark:text-[#ECF5F5] focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30 cursor-pointer"
                 >
                   {notices.map((n) => (
                     <option key={n.id} value={n.id}>
@@ -358,7 +357,7 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] mb-1">
                   Task Title:
                 </label>
                 <input
@@ -367,12 +366,12 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
                   placeholder="e.g., Deliver signed CPA affirmation letter to district office"
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/50 dark:bg-[#0D1722]/60 text-[#172C35] dark:text-[#ECF5F5] placeholder-[#5F7279] dark:placeholder-[#A6BBC3] focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] mb-1">
                   Task Details & Location Notes:
                 </label>
                 <textarea
@@ -380,31 +379,31 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                   value={newTaskDesc}
                   onChange={(e) => setNewTaskDesc(e.target.value)}
                   placeholder="Include phone numbers, contact names, or specific exhibit references..."
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/50 dark:bg-[#0D1722]/60 text-[#172C35] dark:text-[#ECF5F5] placeholder-[#5F7279] dark:placeholder-[#A6BBC3] focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] mb-1">
                     Due Date (Optional):
                   </label>
                   <input
                     type="date"
                     value={newTaskDueDate}
                     onChange={(e) => setNewTaskDueDate(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/50 dark:bg-[#0D1722]/60 text-[#172C35] dark:text-[#ECF5F5] focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172C35] dark:text-[#ECF5F5] mb-1">
                     Obligation Classification:
                   </label>
                   <select
                     value={newTaskType}
                     onChange={(e) => setNewTaskType(e.target.value as any)}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#329F9C]/30 text-slate-700"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DCE9E5] dark:border-[#294251] bg-[#EAF5F0]/50 dark:bg-[#0D1722]/60 text-[#172C35] dark:text-[#ECF5F5] focus:outline-none focus:ring-2 focus:ring-[#238C88]/30 dark:focus:ring-[#65D5C5]/30 cursor-pointer"
                   >
                     <option value="mandatory">Mandatory Statutory Duty</option>
                     <option value="suggested">Suggested Preparation</option>
@@ -416,13 +415,13 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                  className="px-4 py-2 text-xs font-semibold text-[#5F7279] dark:text-[#A6BBC3] bg-[#EAF5F0] dark:bg-[#1B3040] hover:bg-[#E3F2EC] dark:hover:bg-[#203A49] rounded-xl transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold text-white bg-linear-to-r from-[#126A78] to-[#183B70] hover:from-[#0e525d] hover:to-[#122e58] rounded-lg shadow-xs"
+                  className="px-4 py-2 text-xs font-semibold text-white dark:text-[#0D1722] bg-linear-to-r from-[#238C88] to-[#172C35] dark:from-[#65D5C5] dark:to-[#238C88] hover:opacity-95 rounded-xl shadow-xs cursor-pointer"
                 >
                   Save Task
                 </button>

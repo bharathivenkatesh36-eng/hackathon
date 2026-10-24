@@ -83,20 +83,20 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white/95 backdrop-blur-xl border-r border-slate-200/80 shadow-xs select-none">
+    <div className="flex flex-col h-full bg-white/95 dark:bg-[#142332]/95 backdrop-blur-xl border-r border-[#DCE9E5] dark:border-[#294251] shadow-xs select-none transition-colors duration-200">
       {/* Brand Header */}
-      <div className="p-4 flex items-center justify-between border-b border-slate-100">
+      <div className="p-4 flex items-center justify-between border-b border-[#DCE9E5]/60 dark:border-[#294251]">
         <div className="flex items-center gap-3 overflow-hidden">
           {/* Logo icon with prism gradient */}
-          <div className="w-9 h-9 rounded-lg bg-linear-to-br from-[#126A78] to-[#183B70] flex items-center justify-center text-white shrink-0 shadow-xs border border-[#329F9C]/30">
-            <ShieldCheck className="w-5 h-5 text-[#B6E6D9]" />
+          <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#238C88] to-[#172C35] dark:from-[#238C88] dark:to-[#65D5C5] flex items-center justify-center text-white dark:text-[#0D1722] shrink-0 shadow-xs border border-[#329F9C]/30 dark:border-[#65D5C5]/40">
+            <ShieldCheck className="w-5 h-5 text-[#B6E6D9] dark:text-[#0D1722]" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="text-sm font-bold text-[#183B70] tracking-tight truncate leading-tight">
+              <h1 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight truncate leading-tight">
                 Notice on the Desk
               </h1>
-              <p className="text-[11px] font-medium text-[#329F9C] truncate">
+              <p className="text-[11px] font-semibold text-[#238C88] dark:text-[#65D5C5] truncate">
                 Legal Notice Intelligence
               </p>
             </div>
@@ -106,7 +106,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         {/* Mobile close button */}
         <button
           onClick={onCloseMobile}
-          className="md:hidden p-1.5 text-slate-400 hover:text-slate-600 rounded-lg"
+          className="md:hidden p-1.5 text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-white rounded-lg"
           aria-label="Close sidebar"
         >
           <X className="w-5 h-5" />
@@ -124,15 +124,17 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               key={item.id}
               onClick={() => handleNavClick(item.id)}
               title={collapsed ? item.label : undefined}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all group relative ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group relative cursor-pointer ${
                 isActive
-                  ? 'bg-linear-to-r from-[#EEF8F6] to-[#F0F7FF] text-[#126A78] font-semibold shadow-2xs border border-[#B6E6D9]/50'
-                  : 'text-slate-600 hover:text-[#183B70] hover:bg-slate-50'
+                  ? 'bg-[#EAF5F0] dark:bg-[#1B3040] text-[#238C88] dark:text-[#65D5C5] shadow-2xs border border-[#DCE9E5] dark:border-[#294251]'
+                  : 'text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-[#ECF5F5] hover:bg-[#EAF5F0]/60 dark:hover:bg-[#1B3040]/60'
               } ${collapsed ? 'justify-center px-0' : ''}`}
             >
               <Icon
                 className={`w-4 h-4 shrink-0 transition-colors ${
-                  isActive ? 'text-[#126A78]' : 'text-slate-400 group-hover:text-slate-600'
+                  isActive
+                    ? 'text-[#238C88] dark:text-[#65D5C5]'
+                    : 'text-[#5F7279] dark:text-[#A6BBC3] group-hover:text-[#172C35] dark:group-hover:text-[#ECF5F5]'
                 }`}
               />
 
@@ -142,10 +144,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
               {!collapsed && item.badge && (
                 <span
-                  className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                     item.badgeDanger
-                      ? 'bg-rose-100 text-rose-700'
-                      : 'bg-[#B6E6D9]/60 text-[#126A78]'
+                      ? 'bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300'
+                      : 'bg-[#B6E6D9]/70 dark:bg-[#65D5C5]/20 text-[#126A78] dark:text-[#65D5C5]'
                   }`}
                 >
                   {item.badge}
@@ -154,7 +156,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
               {/* Indicator bar for active state */}
               {isActive && (
-                <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#126A78] rounded-r-full" />
+                <span className="absolute left-0 top-2 bottom-2 w-1 bg-[#238C88] dark:bg-[#65D5C5] rounded-r-full" />
               )}
             </button>
           );
@@ -163,28 +165,28 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
       {/* Business Entity Badge at bottom */}
       {!collapsed && (
-        <div className="p-3 m-3 rounded-lg bg-[#F7F9FC] border border-slate-200/70">
+        <div className="p-3 m-3 rounded-xl bg-[#EAF5F0]/60 dark:bg-[#1B3040]/60 border border-[#DCE9E5] dark:border-[#294251]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">
+            <span className="text-[11px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] uppercase tracking-wider">
               Entity Monitored
             </span>
           </div>
-          <p className="mt-1 text-xs font-semibold text-[#183B70] truncate">
+          <p className="mt-1 text-xs font-bold text-[#172C35] dark:text-[#ECF5F5] truncate">
             {businessName}
           </p>
-          <div className="mt-1.5 flex items-center justify-between text-[10px] text-slate-500">
+          <div className="mt-1.5 flex items-center justify-between text-[10px] text-[#5F7279] dark:text-[#A6BBC3]">
             <span>Client Vault Encrypted</span>
-            <span className="text-[#329F9C] font-medium">CA · Fed</span>
+            <span className="text-[#238C88] dark:text-[#65D5C5] font-semibold">CA · Fed</span>
           </div>
         </div>
       )}
 
       {/* Collapse Desktop Toggle */}
-      <div className="hidden md:flex p-3 border-t border-slate-100 justify-end">
+      <div className="hidden md:flex p-3 border-t border-[#DCE9E5]/60 dark:border-[#294251] justify-end">
         <button
           onClick={onToggleCollapse}
-          className="p-1.5 text-slate-400 hover:text-[#126A78] hover:bg-slate-100 rounded-lg transition-colors"
+          className="p-1.5 text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#238C88] dark:hover:text-[#65D5C5] hover:bg-[#EAF5F0] dark:hover:bg-[#1B3040] rounded-lg transition-colors cursor-pointer"
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
@@ -209,7 +211,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       {isMobileOpen && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/50 dark:bg-black/70 backdrop-blur-xs md:hidden"
         />
       )}
 

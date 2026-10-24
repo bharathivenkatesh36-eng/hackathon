@@ -42,7 +42,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         return 'bg-amber-600 hover:bg-amber-700 text-white focus:ring-amber-400';
       case 'primary':
       default:
-        return 'bg-[#126A78] hover:bg-[#0e525d] text-white focus:ring-[#329F9C]';
+        return 'bg-[#238C88] hover:bg-[#1c726f] dark:bg-[#65D5C5] dark:hover:bg-[#4fc2b1] text-white dark:text-[#0D1722] font-bold focus:ring-[#238C88]';
     }
   };
 
@@ -51,41 +51,41 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="dialog-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs"
     >
-      <div className="w-full max-w-md bg-white rounded-xl shadow-xl border border-slate-200 p-6 animate-in fade-in zoom-in-95 duration-150">
+      <div className="w-full max-w-md bg-white dark:bg-[#142332] rounded-2xl shadow-xl border border-[#DCE9E5] dark:border-[#294251] p-6 animate-in fade-in zoom-in-95 duration-150">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-100">
+            <div className="p-2.5 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/60">
               <AlertTriangle className="w-5 h-5" />
             </div>
-            <h3 id="dialog-title" className="text-base font-semibold text-[#183B70]">
+            <h3 id="dialog-title" className="text-base font-bold text-[#172C35] dark:text-[#ECF5F5]">
               {title}
             </h3>
           </div>
           <button
             onClick={onCancel}
             aria-label="Close dialog"
-            className="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
+            className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-[#1B3040]"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="mt-3 text-sm text-slate-600 leading-relaxed">{message}</p>
+        <p className="mt-3 text-sm text-[#5F7279] dark:text-[#A6BBC3] leading-relaxed">{message}</p>
 
         <div className="mt-6 flex items-center justify-end gap-3">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+            className="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-[#ECF5F5] bg-slate-100 dark:bg-[#1B3040] hover:bg-slate-200 dark:hover:bg-[#203A49] rounded-lg transition-colors cursor-pointer"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`px-4 py-2 text-xs font-medium rounded-lg shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 ${getConfirmBtnColor()}`}
+            className={`px-4 py-2 text-xs font-semibold rounded-lg shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 cursor-pointer ${getConfirmBtnColor()}`}
           >
             {confirmLabel}
           </button>

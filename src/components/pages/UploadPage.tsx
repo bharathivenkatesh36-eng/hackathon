@@ -1,16 +1,14 @@
 import React, { useState, useRef } from 'react';
 import {
   Upload,
-  FileText,
-  AlertCircle,
-  CheckCircle2,
-  X,
   FileCheck,
   Shield,
-  Layers,
   Sparkles,
   ArrowRight,
-  BookOpen
+  BookOpen,
+  X,
+  AlertCircle,
+  CheckCircle2
 } from 'lucide-react';
 import { INITIAL_NOTICES } from '../../data/mockNotices';
 import { Notice } from '../../types/notice';
@@ -117,22 +115,18 @@ export const UploadPage: React.FC<UploadPageProps> = ({
     setProcessingStep('uploading');
     setProgressPercent(15);
 
-    // Step 1: Uploading
     setTimeout(() => {
       setProcessingStep('ocr_extraction');
       setProgressPercent(40);
 
-      // Step 2: OCR text scan
       setTimeout(() => {
         setProcessingStep('authority_matching');
         setProgressPercent(65);
 
-        // Step 3: Statutory matching
         setTimeout(() => {
           setProcessingStep('deadline_verification');
           setProgressPercent(90);
 
-          // Step 4: Verification complete
           setTimeout(() => {
             setProcessingStep('complete');
             setProgressPercent(100);
@@ -142,7 +136,6 @@ export const UploadPage: React.FC<UploadPageProps> = ({
             if (selectedSampleNotice) {
               targetNotice = selectedSampleNotice;
             } else if (selectedFile) {
-              // Create new analyzed notice record from uploaded file
               const fileNameClean = selectedFile.name.replace(/\.[^/.]+$/, '');
               targetNotice = {
                 id: `notice-upload-${Date.now()}`,
@@ -249,17 +242,17 @@ export const UploadPage: React.FC<UploadPageProps> = ({
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#183B70] tracking-tight">
+        <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
           Analyze a Legal or Government Notice
         </h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <p className="mt-1 text-sm text-[#5F7279] dark:text-[#A6BBC3]">
           Upload any official agency correspondence, citation, demand letter, or audit notice to
           extract obligations, confirm deadlines, and organize defense preparation.
         </p>
       </div>
 
       {/* Main Upload Box */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white/90 dark:bg-[#142332]/90 backdrop-blur-md rounded-2xl border border-[#DCE9E5] dark:border-[#294251] p-6 sm:p-8 shadow-xs">
         {processingStep === 'idle' ? (
           <div>
             {/* Drag & drop area */}
@@ -268,12 +261,12 @@ export const UploadPage: React.FC<UploadPageProps> = ({
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
-              className={`relative border-2 border-dashed rounded-xl p-8 sm:p-12 text-center transition-all ${
+              className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all ${
                 dragActive
-                  ? 'border-[#329F9C] bg-[#EEF8F6]/60 scale-[1.01]'
+                  ? 'border-[#238C88] dark:border-[#65D5C5] bg-[#EAF5F0]/80 dark:bg-[#1B3040]/80 scale-[1.01]'
                   : selectedFile || selectedSampleNotice
-                  ? 'border-[#329F9C]/60 bg-[#EEF8F6]/20'
-                  : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
+                  ? 'border-[#238C88]/70 dark:border-[#65D5C5]/70 bg-[#EAF5F0]/30 dark:bg-[#1B3040]/30'
+                  : 'border-[#DCE9E5] dark:border-[#294251] hover:border-[#238C88]/60 dark:hover:border-[#65D5C5]/60 bg-[#EAF5F0]/20 dark:bg-[#0D1722]/40'
               }`}
             >
               <input
@@ -287,13 +280,13 @@ export const UploadPage: React.FC<UploadPageProps> = ({
 
               {selectedFile || selectedSampleNotice ? (
                 <div className="flex flex-col items-center">
-                  <div className="p-3 rounded-full bg-[#B6E6D9]/50 text-[#126A78] mb-3">
+                  <div className="p-3.5 rounded-full bg-[#B6E6D9]/50 dark:bg-[#65D5C5]/20 text-[#238C88] dark:text-[#65D5C5] mb-3">
                     <FileCheck className="w-8 h-8" />
                   </div>
-                  <h3 className="text-sm font-bold text-[#183B70]">
+                  <h3 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5]">
                     {selectedFile ? selectedFile.name : selectedSampleNotice?.fileName}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-[#5F7279] dark:text-[#A6BBC3] mt-0.5">
                     {selectedFile
                       ? `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB · Ready for OCR & Legal Extraction`
                       : `${selectedSampleNotice?.fileSize} · Verified Sample Notice Loaded`}
@@ -301,7 +294,7 @@ export const UploadPage: React.FC<UploadPageProps> = ({
 
                   <button
                     onClick={handleRemoveSelection}
-                    className="mt-3 inline-flex items-center gap-1.5 text-xs text-rose-600 hover:text-rose-700 font-medium px-2 py-1 rounded hover:bg-rose-50 transition-colors"
+                    className="mt-3 inline-flex items-center gap-1.5 text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold px-2 py-1 rounded transition-colors cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                     <span>Remove Document</span>
@@ -309,19 +302,19 @@ export const UploadPage: React.FC<UploadPageProps> = ({
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
-                  <div className="p-3.5 rounded-full bg-[#EEF8F6] text-[#126A78] mb-3 border border-[#B6E6D9]/50">
+                  <div className="p-3.5 rounded-full bg-[#EAF5F0] dark:bg-[#1B3040] text-[#238C88] dark:text-[#65D5C5] mb-3 border border-[#DCE9E5] dark:border-[#294251]">
                     <Upload className="w-8 h-8" />
                   </div>
-                  <h3 className="text-sm font-bold text-[#183B70]">
+                  <h3 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5]">
                     Drag & Drop your notice here, or{' '}
                     <label
                       htmlFor="notice-file-input"
-                      className="text-[#126A78] hover:text-[#0e525d] underline cursor-pointer"
+                      className="text-[#238C88] dark:text-[#65D5C5] hover:underline cursor-pointer font-bold"
                     >
                       browse files
                     </label>
                   </h3>
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
                     Supports high-resolution PDF, PNG, JPG, or TIFF documents up to 25 MB
                   </p>
                 </div>
@@ -330,7 +323,7 @@ export const UploadPage: React.FC<UploadPageProps> = ({
 
             {/* Error Message */}
             {errorMessage && (
-              <div className="mt-4 p-3 rounded-lg bg-rose-50 border border-rose-200 flex items-center gap-2.5 text-xs text-rose-700 font-medium">
+              <div className="mt-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 flex items-center gap-2.5 text-xs text-rose-700 dark:text-rose-300 font-semibold">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
@@ -338,21 +331,21 @@ export const UploadPage: React.FC<UploadPageProps> = ({
 
             {/* Action Buttons */}
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <Shield className="w-4 h-4 text-[#329F9C]" />
+              <div className="flex items-center gap-2 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
+                <Shield className="w-4 h-4 text-[#238C88] dark:text-[#65D5C5]" />
                 <span>Client-side sandboxed parsing · Protected confidentiality</span>
               </div>
 
               <button
                 onClick={handleStartAnalysis}
                 disabled={!selectedFile && !selectedSampleNotice}
-                className={`w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm ${
+                className={`w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer ${
                   selectedFile || selectedSampleNotice
-                    ? 'bg-linear-to-r from-[#126A78] to-[#183B70] hover:from-[#0e525d] hover:to-[#122e58] text-white cursor-pointer hover:shadow-md'
-                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    ? 'bg-linear-to-r from-[#238C88] to-[#172C35] dark:from-[#65D5C5] dark:to-[#238C88] text-white dark:text-[#0D1722] hover:opacity-95 hover:shadow-md'
+                    : 'bg-slate-200 dark:bg-[#1B3040] text-slate-400 dark:text-slate-600 cursor-not-allowed'
                 }`}
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#B6E6D9]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#B6E6D9] dark:text-[#0D1722]" />
                 <span>Start Legal Analysis</span>
               </button>
             </div>
@@ -360,15 +353,15 @@ export const UploadPage: React.FC<UploadPageProps> = ({
         ) : (
           /* Processing State with Realistic Progress Stepper */
           <div className="py-8 px-4 text-center max-w-lg mx-auto">
-            <div className="w-12 h-12 rounded-full bg-[#EEF8F6] border border-[#329F9C] mx-auto flex items-center justify-center text-[#126A78] mb-4">
+            <div className="w-12 h-12 rounded-full bg-[#EAF5F0] dark:bg-[#1B3040] border border-[#238C88] dark:border-[#65D5C5] mx-auto flex items-center justify-center text-[#238C88] dark:text-[#65D5C5] mb-4">
               {processingStep === 'complete' ? (
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 animate-in zoom-in" />
+                <CheckCircle2 className="w-6 h-6 text-emerald-600 dark:text-emerald-400 animate-in zoom-in" />
               ) : (
-                <div className="w-6 h-6 border-2 border-[#126A78] border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-[#238C88] dark:border-[#65D5C5] border-t-transparent rounded-full animate-spin" />
               )}
             </div>
 
-            <h3 className="text-base font-bold text-[#183B70]">
+            <h3 className="text-base font-bold text-[#172C35] dark:text-[#ECF5F5]">
               {processingStep === 'uploading' && 'Ingesting Document & Validating Integrity...'}
               {processingStep === 'ocr_extraction' && 'Extracting Text & Layout Coordinates...'}
               {processingStep === 'authority_matching' && 'Identifying Agency, Statutes & Case Numbers...'}
@@ -376,19 +369,19 @@ export const UploadPage: React.FC<UploadPageProps> = ({
               {processingStep === 'complete' && 'Analysis Complete! Launching Review Desk...'}
             </h3>
 
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
               Correlating document facts, identifying legal citations, and verifying response windows.
             </p>
 
             {/* Progress Bar */}
-            <div className="mt-6 w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div className="mt-6 w-full bg-[#EAF5F0] dark:bg-[#1B3040] rounded-full h-2 overflow-hidden">
               <div
-                className="bg-linear-to-r from-[#329F9C] to-[#183B70] h-full transition-all duration-300 rounded-full"
+                className="bg-linear-to-r from-[#238C88] to-[#172C35] dark:from-[#65D5C5] dark:to-[#B9A5F5] h-full transition-all duration-300 rounded-full"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
 
-            <div className="mt-2 flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <div className="mt-2 flex items-center justify-between text-[11px] font-mono text-[#5F7279] dark:text-[#A6BBC3]">
               <span>Verified Fact Engine</span>
               <span>{progressPercent}%</span>
             </div>
@@ -397,14 +390,14 @@ export const UploadPage: React.FC<UploadPageProps> = ({
       </div>
 
       {/* Sample Notices Selector */}
-      <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/80 p-6 shadow-xs">
+      <div className="bg-white/85 dark:bg-[#142332]/85 backdrop-blur-md rounded-2xl border border-[#DCE9E5] dark:border-[#294251] p-6 shadow-xs">
         <div className="flex items-center gap-2 mb-2">
-          <BookOpen className="w-4 h-4 text-[#126A78]" />
-          <h2 className="text-sm font-bold text-[#183B70]">
+          <BookOpen className="w-4 h-4 text-[#238C88] dark:text-[#65D5C5]" />
+          <h2 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5]">
             Or Test with Realistic Pre-Loaded Demonstration Notices
           </h2>
         </div>
-        <p className="text-xs text-slate-500 mb-4">
+        <p className="text-xs text-[#5F7279] dark:text-[#A6BBC3] mb-4">
           Select one of the verified sample legal documents below to immediately test the extraction
           engine, deadline countdowns, document checklists, and response generator.
         </p>
@@ -416,31 +409,31 @@ export const UploadPage: React.FC<UploadPageProps> = ({
               onClick={() => handleSelectSample(sample)}
               className={`p-3.5 rounded-xl border text-left cursor-pointer transition-all ${
                 selectedSampleNotice?.id === sample.id
-                  ? 'border-[#329F9C] bg-[#EEF8F6]/80 ring-2 ring-[#329F9C]/20 shadow-xs'
-                  : 'border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50'
+                  ? 'border-[#238C88] dark:border-[#65D5C5] bg-[#EAF5F0] dark:bg-[#1B3040] ring-2 ring-[#238C88]/20 dark:ring-[#65D5C5]/20 shadow-xs'
+                  : 'border-[#DCE9E5] dark:border-[#294251] hover:border-[#238C88]/60 dark:hover:border-[#65D5C5]/60 bg-white dark:bg-[#142332] hover:bg-[#EAF5F0]/40 dark:hover:bg-[#1B3040]/40'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
-                <span className="text-[11px] font-semibold text-[#126A78] uppercase tracking-wider">
+                <span className="text-[11px] font-semibold text-[#238C88] dark:text-[#65D5C5] uppercase tracking-wider">
                   {sample.category}
                 </span>
-                <span className="text-[10px] font-medium text-slate-500 font-mono">
+                <span className="text-[10px] font-medium text-[#5F7279] dark:text-[#A6BBC3] font-mono">
                   {sample.referenceNumber}
                 </span>
               </div>
 
-              <h4 className="mt-1 text-xs font-bold text-[#183B70] line-clamp-1">
+              <h4 className="mt-1 text-xs font-bold text-[#172C35] dark:text-[#ECF5F5] line-clamp-1">
                 {sample.title}
               </h4>
-              <p className="text-[11px] text-slate-500 truncate mt-0.5">
+              <p className="text-[11px] text-[#5F7279] dark:text-[#A6BBC3] truncate mt-0.5">
                 {sample.issuingAuthority}
               </p>
 
-              <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                <span className="text-slate-600 font-medium">
+              <div className="mt-2.5 pt-2 border-t border-[#DCE9E5]/60 dark:border-[#294251] flex items-center justify-between text-[11px]">
+                <span className="text-[#5F7279] dark:text-[#A6BBC3] font-medium">
                   {sample.deadlineDate ? `Due ${sample.deadlineDate}` : 'No deadline stated'}
                 </span>
-                <span className="font-semibold text-[#329F9C] flex items-center gap-1">
+                <span className="font-semibold text-[#238C88] dark:text-[#65D5C5] flex items-center gap-1">
                   Load Notice <ArrowRight className="w-3 h-3" />
                 </span>
               </div>

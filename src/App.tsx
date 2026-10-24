@@ -12,10 +12,11 @@ import { ActionPlansPage } from './components/pages/ActionPlansPage';
 import { ResponseAssistantPage } from './components/pages/ResponseAssistantPage';
 import { SettingsPage } from './components/pages/SettingsPage';
 import { ToastContainer, ToastMessage } from './components/common/Toast';
-import { Notice, ActionPlanTask, AppSettings, NoticeStatus } from './types/notice';
+import { Notice, ActionPlanTask, AppSettings } from './types/notice';
 import { NoticeService } from './services/noticeService';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
-export default function App() {
+function AppContent() {
   const [activeTab, setActiveTab] = useState<NavTab>('overview');
   const [selectedNoticeId, setSelectedNoticeId] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
@@ -27,6 +28,8 @@ export default function App() {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [globalSearch, setGlobalSearch] = useState<string>('');
   const [categoryFilterNav, setCategoryFilterNav] = useState<string>('all');
+
+  const { theme } = useTheme();
 
   // Load initial data
   const refreshData = () => {
@@ -87,14 +90,12 @@ export default function App() {
     setActiveTab('responses');
   };
 
-  // Callback when a notice is updated
   const handleNoticeUpdated = (updatedNotice: Notice) => {
     const updatedList = notices.map((n) => (n.id === updatedNotice.id ? updatedNotice : n));
     setNotices(updatedList);
     setTasks(NoticeService.getAllActionPlanTasks());
   };
 
-  // Callback when a notice is deleted
   const handleNoticeDeleted = (deletedId: string) => {
     setNotices((prev) => prev.filter((n) => n.id !== deletedId));
     if (selectedNoticeId === deletedId) {
@@ -103,13 +104,11 @@ export default function App() {
     setTasks(NoticeService.getAllActionPlanTasks());
   };
 
-  // Toggle action plan task
   const handleToggleTask = (task: ActionPlanTask) => {
     NoticeService.toggleActionPlanTask(task);
     setTasks((prev) =>
       prev.map((t) => (t.id === task.id ? { ...t, completed: !t.completed } : t))
     );
-    // Sync notice state
     setNotices(NoticeService.getNotices());
     showToast(
       task.completed ? 'Task marked incomplete' : 'Task completed successfully',
@@ -117,22 +116,19 @@ export default function App() {
     );
   };
 
-  // Add custom action plan task
   const handleAddCustomTask = (task: ActionPlanTask) => {
     NoticeService.addCustomTask(task);
     setTasks(NoticeService.getAllActionPlanTasks());
   };
 
-  // Active counts for badges
   const needsAttentionCount = notices.filter((n) => n.status === 'needs_attention').length;
   const pendingActionsCount = tasks.filter((t) => !t.completed).length;
 
-  // Selected notice object if viewing analysis
   const currentSelectedNotice = selectedNoticeId
     ? notices.find((n) => n.id === selectedNoticeId)
     : null;
 
-  // Build breadcrumbs dynamically
+  // Breadcrumbs
   const breadcrumbs: { label: string; onClick?: () => void }[] = [
     {
       label: 'Notice on the Desk',
@@ -169,19 +165,23 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col md:flex-row bg-[#F7F9FC] text-[#183B70] font-sans antialiased overflow-x-hidden selection:bg-[#B6E6D9] selection:text-[#126A78]">
+    <div className="relative min-h-screen flex flex-col md:flex-row bg-[#F5FAF7] dark:bg-[#0D1722] text-[#172C35] dark:text-[#ECF5F5] font-sans antialiased overflow-x-hidden selection:bg-[#B6E6D9] selection:text-[#126A78] dark:selection:bg-[#65D5C5]/30 dark:selection:text-[#65D5C5] transition-colors duration-200">
       {/* Premium Prism Ambient Atmospheric Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Soft geometric prism image layer */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.14] mix-blend-multiply"
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-300 ${
+            theme === 'dark'
+              ? 'opacity-[0.18] mix-blend-screen invert hue-rotate-180'
+              : 'opacity-[0.14] mix-blend-multiply'
+          }`}
           style={{ backgroundImage: `url('/assets/aistudio/image_e7e8be5e.png')` }}
         />
 
         {/* Ambient atmospheric lighting gradients */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#DDF3D2]/35 rounded-full blur-[120px]" />
-        <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#B6E6D9]/30 rounded-full blur-[130px]" />
-        <div className="absolute bottom-0 left-1/3 w-[650px] h-[650px] bg-[#C8B0F0]/20 rounded-full blur-[140px]" />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#DDF3D2]/35 dark:bg-[#238C88]/15 rounded-full blur-[130px] transition-colors duration-300" />
+        <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#B6E6D9]/30 dark:bg-[#65D5C5]/12 rounded-full blur-[140px] transition-colors duration-300" />
+        <div className="absolute bottom-0 left-1/3 w-[650px] h-[650px] bg-[#C8B0F0]/20 dark:bg-[#B9A5F5]/12 rounded-full blur-[150px] transition-colors duration-300" />
       </div>
 
       {/* Sidebar Navigation */}
@@ -218,7 +218,6 @@ export default function App() {
 
         {/* Page Content Container */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {/* Tab 1: Overview */}
           {activeTab === 'overview' && (
             <OverviewPage
               notices={notices}
@@ -229,7 +228,6 @@ export default function App() {
             />
           )}
 
-          {/* Tab 2: Analyze Notice */}
           {activeTab === 'analyze' && (
             <UploadPage
               onAnalysisComplete={(noticeId) => {
@@ -242,7 +240,6 @@ export default function App() {
             />
           )}
 
-          {/* Tab 3: My Notices or Individual Analysis Result */}
           {activeTab === 'notices' && (
             <>
               {currentSelectedNotice ? (
@@ -272,7 +269,6 @@ export default function App() {
             </>
           )}
 
-          {/* Tab 4: Action Plans */}
           {activeTab === 'actions' && (
             <ActionPlansPage
               tasks={tasks}
@@ -284,7 +280,6 @@ export default function App() {
             />
           )}
 
-          {/* Tab 5: Response Assistant */}
           {activeTab === 'responses' && (
             <ResponseAssistantPage
               notices={notices}
@@ -295,7 +290,6 @@ export default function App() {
             />
           )}
 
-          {/* Tab 6: Settings */}
           {activeTab === 'settings' && (
             <SettingsPage
               settings={settings}
@@ -316,5 +310,13 @@ export default function App() {
       {/* Floating Toast Notification Container */}
       <ToastContainer toasts={toasts} onDismiss={handleDismissToast} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }

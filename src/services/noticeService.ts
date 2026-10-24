@@ -13,16 +13,21 @@ const STORAGE_KEY_CUSTOM_TASKS = 'notice_desk_custom_tasks_v1';
 const STORAGE_KEY_SETTINGS = 'notice_desk_settings_v1';
 
 const DEFAULT_SETTINGS: AppSettings = {
-  businessName: 'Apex Precision Technologies LLC',
-  ein: '84-2938102',
-  stateOfIncorporation: 'California',
-  registeredAgent: 'National Registered Agents, Inc.',
-  primaryEmail: 'compliance@apextech.example.com',
+  businessName: 'Apex Precision Technologies Pvt. Ltd.',
+  ein: 'AAACA9921M',
+  gstinOrPan: '29AABCU9603R1ZM',
+  stateOfIncorporation: 'Karnataka, India',
+  registeredAgent: 'K. S. Narayanan & Associates (PCS)',
+  primaryEmail: 'compliance@apextech.co.in',
   notificationAdvanceDays: 7,
   emailAlertsEnabled: true,
   smsUrgentAlertsEnabled: true,
   retentionDays: 90,
-  highContrastTables: false
+  highContrastTables: false,
+  interfaceLanguage: 'en',
+  explanationLanguage: 'en',
+  autoDetectSource: true,
+  appearance: 'system'
 };
 
 // Helper to calculate urgency from date

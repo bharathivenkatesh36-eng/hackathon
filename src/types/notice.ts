@@ -130,6 +130,7 @@ export interface ActionPlanTask {
 export interface AppSettings {
   businessName: string;
   ein: string;
+  gstinOrPan?: string;
   stateOfIncorporation: string;
   registeredAgent: string;
   primaryEmail: string;
@@ -138,4 +139,8 @@ export interface AppSettings {
   smsUrgentAlertsEnabled: boolean;
   retentionDays: number;
   highContrastTables: boolean;
+  interfaceLanguage: string;
+  explanationLanguage: string;
+  autoDetectSource: boolean;
+  appearance: 'light' | 'dark' | 'system';
 }
