@@ -9,12 +9,14 @@ import {
   Lock,
   Sun,
   Moon,
-  Monitor
+  Monitor,
+  Languages
 } from 'lucide-react';
 import { AppSettings } from '../../types/notice';
 import { NoticeService } from '../../services/noticeService';
 import { ConfirmDialog } from '../common/ConfirmDialog';
 import { useTheme } from '../../context/ThemeContext';
+import { LanguageSelector } from '../common/LanguageSelector';
 
 interface SettingsPageProps {
   settings: AppSettings;
@@ -137,6 +139,25 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               Deep navy #0D1722 with atmospheric teal glow and soft lavender facets for low-light focus.
             </p>
           </div>
+        </div>
+
+        {/* Indian Language Localization Selector in Settings */}
+        <div className="mt-4 pt-4 border-t border-[#DCE9E5]/60 dark:border-[#294251] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 className="text-xs font-bold text-[#172C35] dark:text-[#ECF5F5] flex items-center gap-1.5">
+              <Languages className="w-3.5 h-3.5 text-[#238C88] dark:text-[#65D5C5]" />
+              Official Indian Language
+            </h3>
+            <p className="text-[11px] text-[#5F7279] dark:text-[#A6BBC3]">
+              Configure language for notice summaries, checklists, and statutory transmittals (23 languages supported).
+            </p>
+          </div>
+
+          <LanguageSelector
+            onLanguageChange={(lang) => {
+              onShowToast(`Interface language set to ${lang.name} (${lang.nativeName})`, 'info');
+            }}
+          />
         </div>
       </div>
 

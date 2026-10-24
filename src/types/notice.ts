@@ -3,7 +3,12 @@ export type AuthorityType =
   | 'State Tax & Revenue'
   | 'Labor & Workplace Safety (OSHA)'
   | 'Commercial & Real Estate'
-  | 'Licensing & Municipal';
+  | 'Licensing & Municipal'
+  | 'Regulatory & Labor'
+  | 'Ministry of Corporate Affairs (ROC)'
+  | 'EPFO / Labor Court'
+  | 'GST & Indirect Tax'
+  | 'Income Tax Department (ITD)';
 
 export type NoticeCategory =
   | 'Tax & Financial'

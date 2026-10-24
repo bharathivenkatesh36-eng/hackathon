@@ -45,6 +45,25 @@ function AppContent() {
     refreshData();
   }, []);
 
+  // Lock body scroll and listen for Escape key when mobile drawer is open
+  useEffect(() => {
+    if (isMobileSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setIsMobileSidebarOpen(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMobileSidebarOpen]);
+
   const showToast = (message: string, type: 'success' | 'info' | 'error' = 'info') => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
     setToasts((prev) => [...prev, { id, type, message }]);
@@ -66,6 +85,11 @@ function AppContent() {
   const handleNavigateUpload = () => {
     setSelectedNoticeId(null);
     setActiveTab('analyze');
+  };
+
+  const handleNavigateOverview = () => {
+    setSelectedNoticeId(null);
+    setActiveTab('overview');
   };
 
   const handleNavigateNotices = (category?: string) => {
@@ -128,10 +152,10 @@ function AppContent() {
     ? notices.find((n) => n.id === selectedNoticeId)
     : null;
 
-  // Breadcrumbs
+  // Breadcrumbs with NiyamSetu root
   const breadcrumbs: { label: string; onClick?: () => void }[] = [
     {
-      label: 'Notice on the Desk',
+      label: 'NiyamSetu',
       onClick: () => {
         setSelectedNoticeId(null);
         setActiveTab('overview');
@@ -165,7 +189,7 @@ function AppContent() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col md:flex-row bg-[#F5FAF7] dark:bg-[#0D1722] text-[#172C35] dark:text-[#ECF5F5] font-sans antialiased overflow-x-hidden selection:bg-[#B6E6D9] selection:text-[#126A78] dark:selection:bg-[#65D5C5]/30 dark:selection:text-[#65D5C5] transition-colors duration-200">
+    <div className="relative h-screen max-h-screen overflow-hidden flex flex-col md:flex-row bg-[#F5FAF7] dark:bg-[#0D1722] text-[#172C35] dark:text-[#ECF5F5] font-sans antialiased selection:bg-[#B6E6D9] selection:text-[#126A78] dark:selection:bg-[#65D5C5]/30 dark:selection:text-[#65D5C5] transition-colors duration-200">
       {/* Premium Prism Ambient Atmospheric Background */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Soft geometric prism image layer */}
@@ -184,7 +208,7 @@ function AppContent() {
         <div className="absolute bottom-0 left-1/3 w-[650px] h-[650px] bg-[#C8B0F0]/20 dark:bg-[#B9A5F5]/12 rounded-full blur-[150px] transition-colors duration-300" />
       </div>
 
-      {/* Sidebar Navigation */}
+      {/* Desktop Stationary Sidebar & Mobile Drawer */}
       <AppSidebar
         activeTab={activeTab}
         onSelectTab={(tab) => {
@@ -202,11 +226,12 @@ function AppContent() {
         businessName={settings.businessName}
       />
 
-      {/* Main Workspace Area */}
-      <div className="relative z-10 flex-1 flex flex-col min-w-0 min-h-screen">
-        {/* Header */}
+      {/* Main Workspace Area (Viewport height bounded, independent scrolling) */}
+      <div className="relative z-10 flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        {/* Pinned Top Navigation Header */}
         <AppHeader
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          onNavigateOverview={handleNavigateOverview}
           onNavigateUpload={handleNavigateUpload}
           onSelectNotice={handleSelectNotice}
           notices={notices}
@@ -214,10 +239,13 @@ function AppContent() {
           searchQuery={globalSearch}
           onSearchChange={setGlobalSearch}
           businessName={settings.businessName}
+          onLanguageChange={(lang) => {
+            showToast(`Language set to ${lang.name} (${lang.nativeName})`, 'info');
+          }}
         />
 
-        {/* Page Content Container */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        {/* Independent Scrollable Workspace Content */}
+        <main className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto overscroll-contain">
           {activeTab === 'overview' && (
             <OverviewPage
               notices={notices}

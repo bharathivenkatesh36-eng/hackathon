@@ -6,11 +6,12 @@ import {
   CheckSquare,
   FileSignature,
   Settings,
-  ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  ExternalLink
 } from 'lucide-react';
+import { NiyamSetuLogo, NiyamSetuMark } from '../common/NiyamSetuLogo';
 
 export type NavTab = 'overview' | 'analyze' | 'notices' | 'actions' | 'responses' | 'settings';
 
@@ -84,37 +85,52 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-white/95 dark:bg-[#142332]/95 backdrop-blur-xl border-r border-[#DCE9E5] dark:border-[#294251] shadow-xs select-none transition-colors duration-200">
-      {/* Brand Header */}
-      <div className="p-4 flex items-center justify-between border-b border-[#DCE9E5]/60 dark:border-[#294251]">
-        <div className="flex items-center gap-3 overflow-hidden">
-          {/* Logo icon with prism gradient */}
-          <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#238C88] to-[#172C35] dark:from-[#238C88] dark:to-[#65D5C5] flex items-center justify-center text-white dark:text-[#0D1722] shrink-0 shadow-xs border border-[#329F9C]/30 dark:border-[#65D5C5]/40">
-            <ShieldCheck className="w-5 h-5 text-[#B6E6D9] dark:text-[#0D1722]" />
+      {/* Brand Header — Fixed at top */}
+      <div className="p-4 flex items-center justify-between border-b border-[#DCE9E5]/70 dark:border-[#294251] shrink-0 h-16">
+        {collapsed ? (
+          <div className="w-full flex justify-center">
+            <NiyamSetuMark
+              size={32}
+              className="cursor-pointer hover:scale-105 transition-transform"
+              onClick={() => handleNavClick('overview')}
+            />
           </div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <h1 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight truncate leading-tight">
-                Notice on the Desk
-              </h1>
-              <p className="text-[11px] font-semibold text-[#238C88] dark:text-[#65D5C5] truncate">
-                Legal Notice Intelligence
-              </p>
+        ) : (
+          <div className="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
+            {/* Clickable Brand Logo navigating to Overview */}
+            <div
+              onClick={() => handleNavClick('overview')}
+              className="cursor-pointer group flex items-center gap-2.5 overflow-hidden"
+              title="NiyamSetu — Legal notices. Made clear."
+            >
+              <div className="p-1 rounded-xl bg-white dark:bg-[#1B3040] border border-[#DCE9E5] dark:border-[#294251] shadow-2xs group-hover:border-[#238C88] dark:group-hover:border-[#65D5C5] transition-colors shrink-0">
+                <NiyamSetuMark size={30} />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-baseline text-sm font-extrabold tracking-tight leading-tight">
+                  <span className="text-[#0B1B3D] dark:text-[#ECF5F5]">Niyam</span>
+                  <span className="text-[#1D63FF] dark:text-[#65D5C5] font-black">Setu</span>
+                </div>
+                <p className="text-[10px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] truncate leading-tight">
+                  Legal notices. Made clear.
+                </p>
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Mobile close button */}
+        {/* Mobile close button (min 44x44 touch target) */}
         <button
           onClick={onCloseMobile}
-          className="md:hidden p-1.5 text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-white rounded-lg"
-          aria-label="Close sidebar"
+          className="md:hidden flex items-center justify-center w-11 h-11 -mr-2 text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#172C35] dark:hover:text-white rounded-xl cursor-pointer"
+          aria-label="Close sidebar navigation"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Nav List */}
-      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+      {/* Internal Scrollable Navigation Area */}
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto min-h-0 overscroll-contain">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -163,12 +179,12 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
         })}
       </nav>
 
-      {/* Business Entity Badge at bottom */}
+      {/* Business Entity Badge at bottom — Fixed at bottom of sidebar */}
       {!collapsed && (
-        <div className="p-3 m-3 rounded-xl bg-[#EAF5F0]/60 dark:bg-[#1B3040]/60 border border-[#DCE9E5] dark:border-[#294251]">
+        <div className="p-3 m-3 rounded-xl bg-[#EAF5F0]/60 dark:bg-[#1B3040]/60 border border-[#DCE9E5] dark:border-[#294251] shrink-0">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className="text-[10px] font-semibold text-[#5F7279] dark:text-[#A6BBC3] uppercase tracking-wider truncate">
               Entity Monitored
             </span>
           </div>
@@ -176,14 +192,14 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
             {businessName}
           </p>
           <div className="mt-1.5 flex items-center justify-between text-[10px] text-[#5F7279] dark:text-[#A6BBC3]">
-            <span>Client Vault Encrypted</span>
-            <span className="text-[#238C88] dark:text-[#65D5C5] font-semibold">CA · Fed</span>
+            <span>Vault Encrypted</span>
+            <span className="text-[#238C88] dark:text-[#65D5C5] font-semibold">Verified</span>
           </div>
         </div>
       )}
 
       {/* Collapse Desktop Toggle */}
-      <div className="hidden md:flex p-3 border-t border-[#DCE9E5]/60 dark:border-[#294251] justify-end">
+      <div className="hidden md:flex p-3 border-t border-[#DCE9E5]/60 dark:border-[#294251] justify-end shrink-0">
         <button
           onClick={onToggleCollapse}
           className="p-1.5 text-[#5F7279] dark:text-[#A6BBC3] hover:text-[#238C88] dark:hover:text-[#65D5C5] hover:bg-[#EAF5F0] dark:hover:bg-[#1B3040] rounded-lg transition-colors cursor-pointer"
@@ -198,9 +214,9 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
+      {/* Desktop Fixed Stationary Sidebar */}
       <aside
-        className={`hidden md:block shrink-0 transition-all duration-200 h-screen sticky top-0 z-30 ${
+        className={`hidden md:block shrink-0 transition-all duration-200 h-screen sticky top-0 z-30 select-none ${
           collapsed ? 'w-16' : 'w-64'
         }`}
       >
@@ -211,15 +227,19 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       {isMobileOpen && (
         <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-slate-900/50 dark:bg-black/70 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/50 dark:bg-black/70 backdrop-blur-xs md:hidden transition-opacity"
+          aria-hidden="true"
         />
       )}
 
-      {/* Mobile Drawer */}
+      {/* Mobile Off-Canvas Drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-200 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] h-full transform transition-transform duration-250 ease-in-out md:hidden shadow-2xl ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation drawer"
       >
         {sidebarContent}
       </div>
