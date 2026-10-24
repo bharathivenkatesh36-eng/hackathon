@@ -114,7 +114,7 @@ export const ResponseAssistantPage: React.FC<ResponseAssistantPageProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
+          <h1 className="text-page-title text-[#172C35] dark:text-[#ECF5F5]">
             Response Assistant & Formal Draft Workspace
           </h1>
           <p className="mt-0.5 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
@@ -144,7 +144,7 @@ export const ResponseAssistantPage: React.FC<ResponseAssistantPageProps> = ({
         <ShieldAlert className="w-5 h-5 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" />
         <div className="text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
           <p className="font-bold">
-            Notice on the Desk provides administrative draft structuring, NOT formal legal advice.
+            NiyamSetu provides administrative draft structuring, NOT formal legal advice.
           </p>
           <p className="mt-0.5 text-amber-800 dark:text-amber-300">
             Every administrative response carries legal effect and binds your business entity. Prior to

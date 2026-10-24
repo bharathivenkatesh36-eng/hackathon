@@ -77,7 +77,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               <Building2 className="w-3.5 h-3.5" />
               <span>Small Business Legal Defense & Compliance</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#172C35] dark:text-[#ECF5F5] tracking-tight leading-tight">
+            <h1 className="text-page-title font-extrabold text-[#172C35] dark:text-[#ECF5F5]">
               Know what your notice means. Know what to do next.
             </h1>
             <p className="mt-2 text-sm text-[#5F7279] dark:text-[#A6BBC3] leading-relaxed">
@@ -143,7 +143,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#DCE9E5]/60 dark:border-[#294251] gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#172C35] dark:text-[#ECF5F5]">
+              <h2 className="text-section-heading text-[#172C35] dark:text-[#ECF5F5]">
                 Time-Sensitive Deadlines
               </h2>
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/60">
@@ -219,7 +219,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
       <div className="bg-white/90 dark:bg-[#142332]/90 backdrop-blur-md rounded-2xl border border-[#DCE9E5] dark:border-[#294251] p-6 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-[#DCE9E5]/60 dark:border-[#294251]">
           <div>
-            <h2 className="text-base font-bold text-[#172C35] dark:text-[#ECF5F5]">Recent Notices</h2>
+            <h2 className="text-section-heading text-[#172C35] dark:text-[#ECF5F5]">Recent Notices</h2>
             <p className="text-xs text-[#5F7279] dark:text-[#A6BBC3] mt-0.5">
               Parsed legal communications, authority classifications, and current response status.
             </p>

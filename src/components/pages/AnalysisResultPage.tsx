@@ -164,7 +164,7 @@ export const AnalysisResultPage: React.FC<AnalysisResultPageProps> = ({
               </span>
             </div>
 
-            <h1 className="text-xl sm:text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] leading-snug">
+            <h1 className="text-page-title text-[#172C35] dark:text-[#ECF5F5]">
               {notice.title}
             </h1>
 

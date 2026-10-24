@@ -78,7 +78,7 @@ export const ActionPlansPage: React.FC<ActionPlansPageProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
+          <h1 className="text-page-title text-[#172C35] dark:text-[#ECF5F5]">
             Compliance Action Plans
           </h1>
           <p className="mt-0.5 text-xs text-[#5F7279] dark:text-[#A6BBC3]">

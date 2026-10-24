@@ -61,7 +61,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
+        <h1 className="text-page-title text-[#172C35] dark:text-[#ECF5F5]">
           System Settings & Entity Configuration
         </h1>
         <p className="mt-0.5 text-xs text-[#5F7279] dark:text-[#A6BBC3]">
@@ -77,7 +77,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           ) : (
             <Sun className="w-4 h-4 text-[#238C88]" />
           )}
-          <h2 className="text-sm font-bold text-[#172C35] dark:text-[#ECF5F5]">
+          <h2 className="text-section-heading text-[#172C35] dark:text-[#ECF5F5]">
             Appearance & Premium Prism Theme
           </h2>
         </div>

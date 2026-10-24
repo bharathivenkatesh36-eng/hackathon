@@ -242,7 +242,7 @@ export const UploadPage: React.FC<UploadPageProps> = ({
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#172C35] dark:text-[#ECF5F5] tracking-tight">
+        <h1 className="text-page-title text-[#172C35] dark:text-[#ECF5F5]">
           Analyze a Legal or Government Notice
         </h1>
         <p className="mt-1 text-sm text-[#5F7279] dark:text-[#A6BBC3]">
