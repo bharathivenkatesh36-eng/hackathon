@@ -1,6 +1,6 @@
 import { Notice, UrgencyLevel } from '../types/notice';
 import { NoticeService, formatDaysRemaining } from './noticeService';
-import { initMockNotificationWorker } from '../workers/mockNotificationWorker';
+import { initMockNotificationWorker, dispatchNotificationApi } from '../workers/mockNotificationWorker';
 
 export interface DispatchedEmail {
   id: string;
@@ -277,7 +277,7 @@ class NotificationSchedulerService {
 
       try {
         // Dispatched through the Mock Service Worker interceptor
-        const response = await fetch('/api/notifications/dispatch-email', {
+        const response = await dispatchNotificationApi('/api/notifications/dispatch-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -359,7 +359,7 @@ class NotificationSchedulerService {
     );
 
     try {
-      const response = await fetch('/api/notifications/dispatch-email', {
+      const response = await dispatchNotificationApi('/api/notifications/dispatch-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(emailPayload)
